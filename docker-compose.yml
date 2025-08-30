@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  django-app:
+    build: .
+    container_name: django_app
+    volumes:
+      - .:/app
+    command: cron -f
