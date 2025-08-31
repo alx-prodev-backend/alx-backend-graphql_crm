@@ -86,3 +86,39 @@ async def query_hello():
         ts = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
         with open(LOG_FILE, "a") as f:
             f.write(f"{ts} GraphQL hello response: {result}\n")
+
+
+
+import requests
+from datetime import datetime
+
+def update_low_stock():
+    query = """
+    mutation {
+      updateLowStockProducts {
+        success
+        updatedProducts {
+          id
+          name
+          stock
+        }
+      }
+    }
+    """
+    url = "http://localhost:8000/graphql"
+
+    try:
+        response = requests.post(url, json={'query': query})
+        data = response.json()
+
+        timestamp = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
+        with open("/tmp/low_stock_updates_log.txt", "a") as f:
+            if "errors" in data:
+                f.write(f"{timestamp} ERROR: {data['errors']}\n")
+            else:
+                for product in data["data"]["updateLowStockProducts"]["updatedProducts"]:
+                    f.write(f"{timestamp} Updated {product['name']} → Stock: {product['stock']}\n")
+
+    except Exception as e:
+        with open("/tmp/low_stock_updates_log.txt", "a") as f:
+            f.write(f"{timestamp} Exception: {str(e)}\n")
