@@ -1,5 +1,5 @@
 import graphene
-from .models import Product  #  Product
+from crm.models import Product  #  Product
 
 
 # GraphQL type

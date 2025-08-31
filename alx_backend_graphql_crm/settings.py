@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'crm.apps.CrmConfig',
     'django_crontab',
     'crm',
+    'django_celery_beat',
 ]
 
 
@@ -134,3 +135,7 @@ CRONJOBS = [
     ('0 */12 * * *', 'crm.cron.update_low_stock'),
     ('*/5 * * * *', 'crm.cron.log_crm_heartbeat'),
 ]
+
+# Celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
