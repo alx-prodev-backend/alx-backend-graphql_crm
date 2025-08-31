@@ -1,8 +1,9 @@
 #!/bin/bash
 
 LOGFILE="/tmp/customer_cleanup_log.txt"
-#  shell
-deleted_count=$(python3 manage.py shell -c "
+PROJECT_DIR="/home/osboxes/alx/alx-backend-graphql_crm"
+
+deleted_count=$(python3 $PROJECT_DIR/manage.py shell -c "
 from django.utils import timezone
 from crm.models import Customer
 from datetime import timedelta
@@ -13,6 +14,4 @@ count = qs.count()
 qs.delete()
 print(count)
 ")
-
-# سجل النتيجة في اللوج مع الوقت
-echo \"[\$(date '+%Y-%m-%d %H:%M:%S')] Deleted customers: \$deleted_count\" >> \$LOGFILE
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Deleted customers: $deleted_count" >> $LOGFILE
