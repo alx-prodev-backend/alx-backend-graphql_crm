@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'graphene_django',
     'crm.apps.CrmConfig',
     'django_crontab',
-    'crm',
     'django_celery_beat',
 ]
 
